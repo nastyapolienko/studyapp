@@ -1,28 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:studyapp/timer.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  final appTitle = 'StudyApp';
+  static const String _title = 'Flutter Code Sample';
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: appTitle,
-      home: MyHomePage(title: appTitle),
+      title: _title,
+      home: MyStatefulWidget(),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  final String title;
+class MyStatefulWidget extends StatefulWidget {
+  MyStatefulWidget({Key key}) : super(key: key);
 
-  MyHomePage({Key key, this.title}) : super(key: key);
+  @override
+  _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
+}
+
+class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      appBar: AppBar(title: Text(title)),
+      appBar: AppBar(title: Text("StudyApp")),
       body: Center(child:
         Text('This app is very useful for studying!', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)
         )
@@ -52,6 +59,7 @@ class MyHomePage extends StatelessWidget {
                 ),
               ),
             ),
+
             ListTile(
               leading: Icon(Icons.all_inclusive ),
               title: Text('My schedule'),
@@ -80,12 +88,49 @@ class MyHomePage extends StatelessWidget {
               leading: Icon(Icons.alarm),
               title: Text('Pomodoro Timer'),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.push(context,
+                    new MaterialPageRoute(builder: (context) => Pomodoro())
+                );
               },
             ),
           ],
         ),
       ),
+
+      bottomNavigationBar: BottomNavigationBar(
+
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.alarm),
+            label: 'Timer',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.school),
+            label: 'School',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.amber[800],
+        onTap: (int index) => setState((){
+          _selectedIndex = index;
+          switch(_selectedIndex){
+            case 0:
+              print("0");
+              break;
+
+            case 1:
+              print("1");
+              break;
+
+          }
+
+        }
+      ),
+      )
     );
   }
 }
